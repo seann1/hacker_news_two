@@ -1,2 +1,15 @@
-<h1>Link#index</h1>
-<p>Find me in app/views/link/index.html.erb</p>
+<h1>HACKER NEWS CLONE</h1>
+
+<ul>
+  <% @links.each do |link| %>
+    <li>
+
+      points: <%= "#{link.point}"%> |
+      <a href=<%= "#{link.url}"%>><%= "#{link.title}"%></a> |
+      <a href="/links/<%= link.id %>/comments">Discussion</a><%= render 'vote_form', link: link %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Create new link", new_link_path, :class=> "btn btn-default" %>
+

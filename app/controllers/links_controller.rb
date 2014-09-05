@@ -1,7 +1,8 @@
 class LinksController < ApplicationController
   def index
     @links = Link.all
-    @links = @links.all.sort_by {|x| x.points}.reverse
+    @links = @links.all.sort_by {|x| x.point}.reverse
+    @vote = Vote.create(:link_id => params[:link_id])
   end
 
   def show
@@ -12,6 +13,16 @@ class LinksController < ApplicationController
     @link = Link.new
   end
 
+  def create
+    @link = Link.create(link_params)
+    if @link.valid?
+      flash[:notice] = "This link has been added."
+      redirect_to root_path
+    else
+      render 'new'
+    end
+  end
+
   def edit
     @link = Link.find(params[:id])
   end
@@ -19,29 +30,19 @@ class LinksController < ApplicationController
   def update
     @link = Link.find(params[:id])
     @link.update(link_params)
-    flash[:notice] = "Your link has been updated"
+    flash[:notice] = "Your link has been updated."
     redirect_to root_path
   end
 
   def destroy
     @link = Link.find(params[:id])
     @link.destroy
-    flash[:notice] = "This link has been deleted"
+    flash[:notice] = "This link has been deleted."
     redirect_to root_path
   end
 
-  def add_point
-    @link = Link.find(params[:id])
-    @link.one_point
-    flash[:notice] = "Plus one point"
-    redirect_to root_path
+private
+  def link_params
+    params.require(:link).permit(:url, :title, :point)
   end
-
-  private
-    def link_params
-      params.require(:link).permit(:url, :comment, :point, :user_id)
-    end
-
-
-
 end

@@ -1,0 +1,11 @@
+<%= form_for(@link) do |f| %>
+<div class="form-group">
+  <%= f.label "URL" %>
+  <%= f.text_field :url%>
+</div>
+<div class="form-group">
+  <%= f.label "Link Description" %>
+  <%= f.text_field :title %>
+</div>
+<%= f.submit(:class => "btn btn-primary") %>
+<% end %>
