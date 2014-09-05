@@ -8,23 +8,21 @@ class CommentsController < ApplicationController
 
   def show
     @comments = Comment.all
-    @link = Post.find(params[:link_id])
+    @link = Link.find(params[:link_id])
     @comments_for_link = Comment.where(:link_id => params[:link_id])
     @comment = Comment.create(params[:content])
   end
 
   def new
+    @link = Link.find(params[:link_id])
     @comment = Comment.new
   end
 
   def create
+    @link = Link.find(params[:link_id])
     @comment = Comment.create(comment_params)
-    if @comment.valid?
-      flash[:notice] = "Comment added."
-      redirect_to root_path
-    else
-      render 'new'
-    end
+    flash[:notice] = "Comment added."
+    redirect_to link_comments_path
   end
 
 
@@ -38,6 +36,6 @@ class CommentsController < ApplicationController
 private
 
   def comment_params
-    params.require(:comment).permit(:content, :post_id)
+    params.require(:comment).permit(:content, :link_id)
   end
 end

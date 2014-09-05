@@ -1,2 +1,9 @@
-<h1>Comment#index</h1>
-<p>Find me in app/views/comment/index.html.erb</p>
+<h1><%= @link.title%></h1>
+<% @link.comments.each do |i| %>
+  <ul>
+    <li><div class="comment"><%= i.content %></div></li>
+  </ul>
+<% end %>
+
+
+<%= render 'form' %>
