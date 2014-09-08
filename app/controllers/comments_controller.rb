@@ -19,10 +19,28 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @link = Link.find(params[:link_id])
-    @comment = Comment.create(comment_params)
-    flash[:notice] = "Comment added."
-    redirect_to link_comments_path
+    if params[:parent_comment_id] != nil
+      @parent_comment = Comment.find(params[:parent_comment_id])
+      @user = User.find(params[:user_id])
+      @comment = @parent_comment.comments.new(comment_params)
+      @user.comments << @comment
+
+      @user.save
+      @parent_comment.save
+      @link = Link.find(params[:link_id])
+      flash[:notice] = "Reply added."
+    elsif params[:link_id] != nil
+
+      @link = Link.find(params[:link_id])
+      @user = User.find(params[:user_id])
+      @comment = Link.comments.new(comment_params)
+      @link.comments << @comment
+      @user.comments << @comment
+
+      @user.save
+      flash[:notice] = "Comment added."
+      redirect_to link_comments_path
+    end
   end
 
 
@@ -36,6 +54,6 @@ class CommentsController < ApplicationController
 private
 
   def comment_params
-    params.require(:comment).permit(:content, :link_id)
+    params.require(:comment).permit(:content, :link_id, :parent_comment_id, :user_id)
   end
 end

@@ -1,7 +1,7 @@
 <h1><%= @link.title%></h1>
 <% @link.comments.each do |i| %>
   <ul>
-    <li><div class="comment"><%= i.content %></div></li>
+    <li><div class="comment"><%= i.content %></div><%= render 'reply_form'%></li>
   </ul>
 <% end %>
 

@@ -8,7 +8,27 @@
 </head>
 <body>
 
+<div class="container">
+
+<% if current_user %>
+  Logged in as <%= current_user.email %>.
+  <%= link_to "Log Out", logout_path %>
+<% else %>
+  <%= link_to "Sign Up", signup_path %> or
+  <%= link_to "Log In", login_path %>
+<% end %>
+
+<div id="notice" style="background: green; color: white; text-align:center;">
+    <%= flash[:notice] %>
+  </div>
+  <% if flash[:alert] %>
+  <div id="alert" style="background: red; color: white; text-align:center;">
+    <%= flash[:alert] %>
+  </div>
+
+  <% end %>
 <%= yield %>
+</div>
 
 </body>
 </html>

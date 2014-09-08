@@ -1,0 +1,5 @@
+<%= form_for ([@comment_for_link, @comment]) do |v| %>
+  <%= v.hidden_field :link_id, value: link.id %>
+  <%= v.hidden_field :comment_id, value: comment.id %>
+  <%= v.submit "Reply" %>
+<% end %>
